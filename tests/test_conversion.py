@@ -111,3 +111,51 @@ def test_complex_pdf(complex_pdf_path: Path) -> None:
     for element in expected_elements:
         assert element.strip() in normalized_converted, \
             f"Expected element '{element}' not found in complex PDF conversion output."
+
+
+def test_csv(tmp_path_factory: pytest.TempPathFactory) -> None:
+    """
+    Tests batch conversion using a CSV file.
+    """
+    # Create directories
+    pdf_dir = tmp_path_factory.mktemp("csv_test_pdfs")
+    output_dir = tmp_path_factory.mktemp("csv_test_output")
+    csv_dir = tmp_path_factory.mktemp("csv_test")
+
+    # Create PDFs
+    simple_pdf = pdf_dir / "simple.pdf"
+    complex_pdf = pdf_dir / "complex.pdf"
+    image_path = pdf_dir / "test_image.png"
+
+    create_simple_pdf(simple_pdf)
+    image = create_image(filename=image_path)
+    if not image:
+        pytest.fail("Failed to create image for CSV test")
+    create_complex_pdf(filename=complex_pdf, _image=image)
+
+    # Create CSV file with conversion pairs
+    csv_file = csv_dir / "batch_convert.csv"
+    simple_md = output_dir / "simple_from_csv.md"
+    complex_md = output_dir / "complex_from_csv.md"
+
+    csv_content = f"{simple_pdf}, {simple_md}\n{complex_pdf}, {complex_md}"
+    csv_file.write_text(csv_content)
+
+    # Run batch conversion
+    convert(file=csv_file)
+
+    # Verify both files were created
+    assert simple_md.exists(), "Simple PDF was not converted from CSV"
+    assert complex_md.exists(), "Complex PDF was not converted from CSV"
+
+    # Verify content of simple PDF conversion
+    simple_content = simple_md.read_text(encoding="utf-8")
+    simple_lines = [line.strip() for line in simple_content.splitlines() if line.strip()]
+    assert "# **A Simple PDF Document**" in simple_lines
+    assert "This is a basic paragraph in a simple PDF." in simple_lines
+
+    # Verify content of complex PDF conversion
+    complex_content = complex_md.read_text(encoding="utf-8")
+    complex_lines = [line.strip() for line in complex_content.splitlines() if line.strip()]
+    assert "# **Complex PDF Document Example**" in complex_lines
+    assert "# **Table Example:**" in complex_lines
