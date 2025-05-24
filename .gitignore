@@ -1,5 +1,5 @@
 # Local files
-convert.log
+**/convert.log
 
 # Python-generated files
 __pycache__/
