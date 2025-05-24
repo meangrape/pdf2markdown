@@ -18,7 +18,7 @@ logfile = Path("convert.log")
 logger.add(logfile, level="ERROR", encoding="utf-8")
 
 
-def convert(*args: Optional[Any], **kwargs: Dict[str, Union[Path, str]]) -> None:
+def convert(*args: Optional[Any], **kwargs: Any) -> None:
     """Does the actual conversion.
 
     Args:
