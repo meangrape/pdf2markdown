@@ -28,7 +28,7 @@ jobs:
         echo "Current version: $CURRENT_VERSION"
 
         # Get previous version
-        git checkout HEAD~1 pyproject.toml 2>/dev/null || echo "No previous version"
+        git checkout HEAD~2 pyproject.toml 2>/dev/null || echo "No previous version"
         PREVIOUS_VERSION=$(grep -E "^version = " pyproject.toml 2>/dev/null | sed 's/version = "\(.*\)"/\1/' || echo "0.0.0")
 
         # Restore current version
