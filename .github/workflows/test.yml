@@ -26,13 +26,9 @@ jobs:
         pip install --upgrade pip uv
         uv pip install --system -e .[dev]
 
-    - name: Run linter with auto-fix
+    - name: Run linter
       run: |
-        uv run ruff check --fix .
-
-    - name: Run import sorting
-      run: |
-        uv run isort .
+        uv run ruff check .
 
     - name: Run type checking
       run: |
