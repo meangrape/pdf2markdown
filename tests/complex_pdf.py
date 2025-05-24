@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """Create a complex PDF document with images, tables, and custom styles using ReportLab."""
 
-import os
 import sys
 from pathlib import Path
 from typing import Any, List, Optional

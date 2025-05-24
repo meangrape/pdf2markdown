@@ -9,10 +9,12 @@
 import argparse
 import sys
 from pathlib import Path
-from typing import Any, Dict, Optional, Union
+from typing import Any, Optional
 
 import pymupdf4llm
 from loguru import logger
+
+from .align_tables import align_markdown_tables
 
 logfile = Path("convert.log")
 logger.add(logfile, level="ERROR", encoding="utf-8")
@@ -47,6 +49,8 @@ def convert(*args: Optional[Any], **kwargs: Any) -> None:
                     continue
                 try:
                     md_text = pymupdf4llm.to_markdown(pdf)
+                    # Align tables for better readability
+                    md_text = align_markdown_tables(md_text)
                 except Exception as e:
                     logger.error(f"Error converting '{pdf}': {e}")
                     continue
@@ -65,6 +69,8 @@ def convert(*args: Optional[Any], **kwargs: Any) -> None:
             sys.exit()
 
         md_text = pymupdf4llm.to_markdown(pdf)
+        # Align tables for better readability
+        md_text = align_markdown_tables(md_text)
         markdown.write_bytes(md_text.encode("utf-8"))  # type: ignore
         logger.info(f"Converted '{pdf}' to '{markdown}'")
 

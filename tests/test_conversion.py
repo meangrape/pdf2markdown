@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from pathlib import Path
-from typing import Generator, Optional
+from typing import Generator
 
 import pytest
 from complex_pdf import create_complex_pdf, create_image
@@ -98,10 +98,9 @@ def test_complex_pdf(complex_pdf_path: Path) -> None:
         "# **Image Example:**",
         "*A placeholder image demonstrating embedding.*",
         "# **Table Example:**",
-        "|Header 1|Header 2|Header 3|Header 4|",
-        "|---|---|---|---|",
-        "|Row 1 Col 1|Row 1 Col 2|Row 1 Col 3|Row 1 Col 4|",
-        "|Row 3 Col 1|Row 3 Col 2|Row 3 Col 3 R|ow 3 Col 4 with more te|", # Conversion drops "ex" at the end of "text"; Changes |Row 3 Col4 to R|ow 3 Col 4
+        "| Header 1    | Header 2    | Header 3      | Header 4                |",
+        "| Row 1 Col 1 | Row 1 Col 2 | Row 1 Col 3   | Row 1 Col 4             |",
+        "| Row 3 Col 1 | Row 3 Col 2 | Row 3 Col 3 R | ow 3 Col 4 with more te |", # Conversion drops "ex" at the end of "text"
         "This is content on the **second page**, demonstrating page breaks.",
         "We can continue with more elaborate layouts here, potentially mixing elements like images and tables",
         "freely across pages.",
