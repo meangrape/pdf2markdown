@@ -31,3 +31,7 @@ pythonpath = ["."]
 filterwarnings = [
     "ignore::DeprecationWarning",
     ]
+
+[tool.mypy]
+strict = true
+disable_error_code = ["import-not-found", "import-untyped"]
