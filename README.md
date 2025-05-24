@@ -1,3 +1,5 @@
+[![Release](https://github.com/meangrape/pdf2markdown/actions/workflows/release.yml/badge.svg)](https://github.com/meangrape/pdf2markdown/actions/workflows/release.yml)
+
 # pdf2markdown
 
 A Python CLI tool that converts PDF files to Markdown format using pymupdf4llm.
