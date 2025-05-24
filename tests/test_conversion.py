@@ -142,7 +142,7 @@ def test_csv(tmp_path_factory: pytest.TempPathFactory) -> None:
     csv_file.write_text(csv_content)
 
     # Run batch conversion
-    convert(file=csv_file)
+    convert(file=csv_file.as_posix())
 
     # Verify both files were created
     assert simple_md.exists(), "Simple PDF was not converted from CSV"
