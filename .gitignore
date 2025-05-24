@@ -1,5 +1,6 @@
 # Local files
 **/convert.log
+**/tags
 
 # Python-generated files
 __pycache__/
