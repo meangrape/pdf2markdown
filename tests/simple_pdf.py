@@ -2,6 +2,7 @@
 """A simple PDF document generator using ReportLab."""
 
 from pathlib import Path
+from typing import Any, List
 
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
@@ -9,10 +10,10 @@ from reportlab.lib.units import inch
 from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer
 
 
-def create_simple_pdf(filename: Path = Path("simple_document.pdf")):
+def create_simple_pdf(filename: Path = Path("simple_document.pdf")) -> None:
     doc = SimpleDocTemplate(filename.as_posix(), pagesize=letter)
     styles = getSampleStyleSheet()
-    story = []
+    story: List[Any] = []
 
     # Add a title
     title_style = ParagraphStyle(

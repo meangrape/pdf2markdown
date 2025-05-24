@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from pathlib import Path
-from typing import Generator
+from typing import Generator, Optional
 
 import pytest
 from complex_pdf import create_complex_pdf, create_image
@@ -25,19 +25,19 @@ def complex_pdf_path(tmp_path_factory: pytest.TempPathFactory) -> Generator[Path
 
     pdf_dir = tmp_path_factory.mktemp("complex_pdf_test")
     pdf = pdf_dir / "complex_document.pdf"
-    image = pdf_dir / "complex_image.png"
+    image_path: Path = pdf_dir / "complex_image.png"
 
     # Create the dummy image
-    image = create_image(filename=image.as_posix())
+    image = create_image(filename=image_path)
     if not image:
         pytest.fail("Failed to create dummy image for complex PDF test.")
 
     # Create the complex PDF, passing the path to the dummy image
-    create_complex_pdf(filename=pdf.as_posix(), image_filename=image.as_posix())
+    create_complex_pdf(filename=pdf, _image=image)
     yield pdf
 
 
-def test_simple_pdf(simple_pdf_path: Path):
+def test_simple_pdf(simple_pdf_path: Path) -> None:
     """
     Tests the conversion fidelity of a simple PDF to Markdown.
     It checks for the presence of key text snippets.
@@ -70,7 +70,7 @@ def test_simple_pdf(simple_pdf_path: Path):
             f"Expected part '{expected_part}' not found in simple PDF conversion output."
 
 
-def test_complex_pdf(complex_pdf_path: Path):
+def test_complex_pdf(complex_pdf_path: Path) -> None:
     """
     Tests the conversion fidelity of a complex PDF to Markdown.
     It checks for the presence of key structural elements and content.
