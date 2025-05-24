@@ -1,4 +1,41 @@
 
+<a name="v1.0.1"></a>
+## [v1.0.1](https://github.com/meangrape/pdf2markdown/compare/v1.0.0...v1.0.1)
+
+> 2025-05-24
+
+### CI
+
+* fix release.yaml workdlow to get correct previous version
+
+### Chores
+
+* bump version to 1.0.1 hopefully this kicks off a release build
+
+### Styles
+
+* import formatting
+
+
+<a name="v1.0.0"></a>
+## [v1.0.0](https://github.com/meangrape/pdf2markdown/compare/v0.1.9...v1.0.0)
+
+> 2025-05-24
+
+### Chores
+
+* Bump version to 1.0.0
+* remove convert.log and temp file from git
+
+### Documentation
+
+* Update changelog for v1.0.0
+
+### Features
+
+* use marker-pdf instead of pymupdf4llm
+
+
 <a name="v0.1.9"></a>
 ## [v0.1.9](https://github.com/meangrape/pdf2markdown/compare/v0.1.8...v0.1.9)
 
