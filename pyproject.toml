@@ -1,12 +1,12 @@
 [project]
 name = "pdf2markdown"
-version = "0.1.5"
+version = "0.1.6"
 authors = [
     { name = "Jay Edwards", email = "jay@meangrape.com" }
 ]
 description = "Converts PDF files to Markdown format."
 readme = "README.md"
-license = {text = "BSD-3-Clause"}
+license = "BSD-3-Clause"
 requires-python = ">=3.13"
 dependencies = [
     "loguru>=0.7.3",
