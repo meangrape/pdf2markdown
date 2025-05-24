@@ -4,7 +4,7 @@
 import os
 import sys
 from pathlib import Path
-from typing import Optional
+from typing import Any, List, Optional
 
 from PIL import Image as PILImage
 from PIL import ImageDraw
@@ -18,7 +18,7 @@ from reportlab.platypus import (Image, PageBreak, Paragraph, SimpleDocTemplate,
 from reportlab.platypus.flowables import Flowable
 
 
-def create_image(filename="dummy_image.png", width=200, height=150) -> Optional[Path]:
+def create_image(filename: Path, width: int = 200, height: int = 150) -> Optional[Path]:
     """Creates an image to be inserted into the PDF.
 
     Args:
@@ -27,7 +27,7 @@ def create_image(filename="dummy_image.png", width=200, height=150) -> Optional[
         height (int): The height of the image.
     """
 
-    image = PILImage.new('RGB', (width, height), color = (73, 109, 137))
+    image = PILImage.new("RGB", (width, height), color = (73, 109, 137))
     d = ImageDraw.Draw(image)
     d.text((10,10), "Dummy Image", fill=(255,255,0))
     try:
@@ -44,12 +44,12 @@ class HeaderAndFooter(Flowable):
     Custom Flowable for header/footer (more common with PageTemplate, but showing here). When testing with
     is_header=True, the converter didn't pick up the element. It works fine with is_header=False.
     """
-    def __init__(self, text, is_header=True):
+    def __init__(self, text: str, is_header: bool = True) -> None:
         Flowable.__init__(self)
         self.text = text
         self.is_header = is_header
 
-    def draw(self):
+    def draw(self) -> None:
         self.canv.saveState()
         self.canv.setFont("Helvetica", 9)
         if self.is_header:
@@ -59,10 +59,11 @@ class HeaderAndFooter(Flowable):
         self.canv.restoreState()
 
 
-def create_complex_pdf(filename="complex_document.pdf", image_filename="complex_image.png"): # MODIFIED
-    doc = SimpleDocTemplate(filename, pagesize=letter)
+def create_complex_pdf(filename: Path = Path("complex_document.pdf"),
+                       _image: Path = Path("dummy_image.png")) -> None:
+    doc = SimpleDocTemplate(filename.as_posix(), pagesize=letter)
     styles = getSampleStyleSheet()
-    story = []
+    story: List[Any] = []
 
     # Custom styles
     heading_style = ParagraphStyle(
@@ -90,12 +91,8 @@ def create_complex_pdf(filename="complex_document.pdf", image_filename="complex_
     # --- Section 2: Image Inclusion ---
     story.append(Paragraph("Image Example:", heading_style))
 
-    image_path = image_filename
-    if not os.path.exists(image_path):
-        image_path = create_image(filename=image_path)
-
-    if image_path:
-        image = Image(image_path, width=3*inch, height=2.5*inch)
+    if _image.exists():
+        image = Image(_image.as_posix(), width=3*inch, height=2.5*inch)
         story.append(image)
         story.append(Paragraph("<i>A placeholder image demonstrating embedding.</i>", styles["Italic"]))
         story.append(Spacer(1, 0.3 * inch))
