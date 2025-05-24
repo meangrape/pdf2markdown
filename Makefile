@@ -56,7 +56,6 @@ clean: ## Clean build artifacts
 release: ## Run full release process (test, format, build, etc.)
 	@echo "Starting release process..."
 	@echo ""
-	@# Get current version
 	@CURRENT_VERSION=$$(grep -E "^version = " pyproject.toml | sed 's/version = "\(.*\)"/\1/'); \
 	echo "Current version: $$CURRENT_VERSION"; \
 	echo ""; \
@@ -68,39 +67,33 @@ release: ## Run full release process (test, format, build, etc.)
 	echo ""; \
 	echo "Updating to version $$NEW_VERSION..."; \
 	echo ""; \
-	# Update pyproject.toml \
-	sed -i '' "s/^version = \".*\"/version = \"$$NEW_VERSION\"/" pyproject.toml; \
-	# Update uv.lock \
-	$(UV) lock; \
-	echo "Running quality checks..."; \
-	echo ""; \
-	# Run all checks \
-	$(MAKE) sort-imports; \
-	$(MAKE) format; \
-	$(MAKE) lint; \
-	$(MAKE) typecheck; \
-	$(MAKE) test; \
-	echo ""; \
-	echo "Building package..."; \
-	$(MAKE) clean; \
-	$(MAKE) build; \
-	echo ""; \
-	# Commit version bump \
-	git add pyproject.toml uv.lock; \
-	git commit -m "chore: Bump version to $$NEW_VERSION"; \
-	# Create signed tag \
-	git tag -s "v$$NEW_VERSION" -m "Release v$$NEW_VERSION"; \
-	# Update changelog \
-	$(MAKE) changelog; \
-	git add CHANGELOG.md; \
-	git commit -m "docs: Update changelog for v$$NEW_VERSION"; \
-	echo ""; \
-	echo "✨ Release v$$NEW_VERSION prepared successfully!"; \
-	echo ""; \
-	echo "Next steps:"; \
-	echo "  1. Review the changes: git log --oneline -5"; \
-	echo "  2. Push commits: git push origin main"; \
-	echo "  3. Push tag: git push origin v$$NEW_VERSION"; \
+	sed -i '' "s/^version = \".*\"/version = \"$$NEW_VERSION\"/" pyproject.toml && \
+	$(UV) lock && \
+	echo "Running quality checks..." && \
+	echo "" && \
+	$(MAKE) sort-imports && \
+	$(MAKE) format && \
+	$(MAKE) lint && \
+	$(MAKE) typecheck && \
+	$(MAKE) test && \
+	echo "" && \
+	echo "Building package..." && \
+	$(MAKE) clean && \
+	$(MAKE) build && \
+	echo "" && \
+	git add pyproject.toml uv.lock && \
+	git commit -m "chore: Bump version to $$NEW_VERSION" && \
+	git tag -s "v$$NEW_VERSION" -m "Release v$$NEW_VERSION" && \
+	$(MAKE) changelog && \
+	git add CHANGELOG.md && \
+	git commit -m "docs: Update changelog for v$$NEW_VERSION" && \
+	echo "" && \
+	echo "✨ Release v$$NEW_VERSION prepared successfully!" && \
+	echo "" && \
+	echo "Next steps:" && \
+	echo "  1. Review the changes: git log --oneline -5" && \
+	echo "  2. Push commits: git push origin main" && \
+	echo "  3. Push tag: git push origin v$$NEW_VERSION" && \
 	echo ""
 
 # Additional convenience targets
