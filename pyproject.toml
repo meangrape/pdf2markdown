@@ -13,6 +13,9 @@ dependencies = [
     "pymupdf4llm>=0.0.24",
 ]
 
+[project.scripts]
+pdf2markdown = "pdf2markdown.cli:main"
+
 [dependency-groups]
 dev = [
     "ipython>=9.2.0",
