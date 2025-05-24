@@ -64,19 +64,19 @@ jobs:
 
     - name: Run linter with auto-fix
       run: |
-        ruff check --fix .
+        uv run ruff check --fix .
 
     - name: Run import sorting
       run: |
-        isort .
+        uv run isort .
 
     - name: Run type checking
       run: |
-        mypy .
+        uv run mypy .
 
     - name: Run tests
       run: |
-        pytest
+        uv run pytest
 
   build-and-publish:
     needs: [check-version, test]
