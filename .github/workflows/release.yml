@@ -18,7 +18,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        fetch-depth: 2
+        fetch-depth: 0  # Get full history to find previous version
 
     - name: Check if version changed
       id: version
@@ -27,14 +27,18 @@ jobs:
         CURRENT_VERSION=$(grep -E "^version = " pyproject.toml | sed 's/version = "\(.*\)"/\1/')
         echo "Current version: $CURRENT_VERSION"
 
-        # Get previous version
-        git checkout HEAD~2 pyproject.toml 2>/dev/null || echo "No previous version"
-        PREVIOUS_VERSION=$(grep -E "^version = " pyproject.toml 2>/dev/null | sed 's/version = "\(.*\)"/\1/' || echo "0.0.0")
-
-        # Restore current version
-        git checkout HEAD pyproject.toml
-
-        echo "Previous version: $PREVIOUS_VERSION"
+        # Get the last commit that changed pyproject.toml before this one
+        PREVIOUS_COMMIT=$(git log -n 2 --pretty=format:"%H" -- pyproject.toml | tail -n 1)
+        
+        if [ -n "$PREVIOUS_COMMIT" ]; then
+          # Get previous version from that commit
+          PREVIOUS_VERSION=$(git show ${PREVIOUS_COMMIT}:pyproject.toml | grep -E "^version = " | sed 's/version = "\(.*\)"/\1/')
+          echo "Previous version: $PREVIOUS_VERSION (from commit $PREVIOUS_COMMIT)"
+        else
+          # No previous version found
+          PREVIOUS_VERSION="0.0.0"
+          echo "No previous version found, using: $PREVIOUS_VERSION"
+        fi
 
         if [ "$CURRENT_VERSION" != "$PREVIOUS_VERSION" ]; then
           echo "Version changed from $PREVIOUS_VERSION to $CURRENT_VERSION"
