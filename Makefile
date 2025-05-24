@@ -83,10 +83,17 @@ release: ## Run full release process (test, format, build, etc.)
 	echo "" && \
 	git add pyproject.toml uv.lock && \
 	git commit -m "chore: Bump version to $$NEW_VERSION" && \
+	echo "Generating changelog..." && \
 	$(MAKE) changelog && \
-	git add CHANGELOG.md && \
-	git commit -m "docs: Update changelog for v$$NEW_VERSION" && \
-	git tag -s "v$$NEW_VERSION" -m "Release v$$NEW_VERSION" && \
+	if git diff --quiet CHANGELOG.md; then \
+		echo "No changelog changes detected"; \
+	else \
+		git add CHANGELOG.md && \
+		git commit -m "docs: Update changelog for v$$NEW_VERSION"; \
+	fi && \
+	echo "Creating signed tag v$$NEW_VERSION..." && \
+	git tag -s "v$$NEW_VERSION" -m "Release v$$NEW_VERSION" || \
+	(echo "Failed to create tag v$$NEW_VERSION" && exit 1) && \
 	echo "" && \
 	echo "✨ Release v$$NEW_VERSION prepared successfully!" && \
 	echo "" && \
