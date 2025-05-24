@@ -104,14 +104,14 @@ jobs:
     - name: Check package
       run: |
         twine check dist/*
-    
-    - name: Publish to PyPI
-      env:
-        TWINE_USERNAME: __token__
-        TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-      run: |
-        twine upload dist/*
-    
+
+    # - name: Publish to PyPI
+    #   env:
+    #     TWINE_USERNAME: __token__
+    #     TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+    #   run: |
+    #     twine upload dist/*
+
     - name: Create GitHub Release
       uses: actions/create-release@v1
       env:
@@ -121,10 +121,7 @@ jobs:
         release_name: Release v${{ needs.check-version.outputs.version }}
         body: |
           Release v${{ needs.check-version.outputs.version }}
-          
-          Install from PyPI:
-          ```bash
-          pip install pdf2markdown==${{ needs.check-version.outputs.version }}
-          ```
+
+          Built package artifacts are attached to this release.
         draft: false
         prerelease: false
