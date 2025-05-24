@@ -2,7 +2,7 @@
 
 # pdf2markdown
 
-A Python CLI tool that converts PDF files to Markdown format using pymupdf4llm.
+A Python CLI tool that converts PDF files to Markdown format using marker-pdf.
 
 ## Features
 
