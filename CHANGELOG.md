@@ -1,4 +1,24 @@
 
+<a name="v0.1.8"></a>
+## [v0.1.8](https://github.com/meangrape/pdf2markdown/compare/v0.1.7...v0.1.8)
+
+> 2025-05-24
+
+### Bug Fixes
+
+* get make releasing working
+
+### Chores
+
+* Bump version to 0.1.8
+* Bump version to 0.1.9
+* Bump version to 0.1.8
+
+### Documentation
+
+* Update changelog for v0.1.7
+
+
 <a name="v0.1.7"></a>
 ## [v0.1.7](https://github.com/meangrape/pdf2markdown/compare/v0.1.6...v0.1.7)
 
