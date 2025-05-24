@@ -6,6 +6,9 @@ on:
     paths:
       - 'pyproject.toml'
 
+permissions:
+  contents: write
+
 jobs:
   check-version:
     runs-on: ubuntu-latest
@@ -114,15 +117,14 @@ jobs:
     #     twine upload dist/*
 
     - name: Create GitHub Release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: softprops/action-gh-release@v1
       with:
         tag_name: v${{ needs.check-version.outputs.version }}
-        release_name: Release v${{ needs.check-version.outputs.version }}
+        name: Release v${{ needs.check-version.outputs.version }}
         body: |
           Release v${{ needs.check-version.outputs.version }}
 
           Built package artifacts are attached to this release.
+        files: dist/*
         draft: false
         prerelease: false
