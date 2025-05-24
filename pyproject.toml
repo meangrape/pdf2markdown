@@ -10,7 +10,7 @@ license = "BSD-3-Clause"
 requires-python = ">=3.13"
 dependencies = [
     "loguru>=0.7.3",
-    "pymupdf4llm>=0.0.24",
+    "marker-pdf>=1.7.3",
 ]
 
 [project.scripts]
