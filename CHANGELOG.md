@@ -1,4 +1,18 @@
 
+<a name="v1.0.2"></a>
+## [v1.0.2](https://github.com/meangrape/pdf2markdown/compare/v1.0.1...v1.0.2)
+
+> 2025-05-24
+
+### Chores
+
+* Bump version to 1.0.2
+
+### Documentation
+
+* Update changelog for v1.0.2
+
+
 <a name="v1.0.1"></a>
 ## [v1.0.1](https://github.com/meangrape/pdf2markdown/compare/v1.0.0...v1.0.1)
 
