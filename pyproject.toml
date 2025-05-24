@@ -1,6 +1,6 @@
 [project]
 name = "pdf2markdown"
-version = "1.0.0"
+version = "1.0.1"
 authors = [
     { name = "Jay Edwards", email = "jay@meangrape.com" }
 ]
