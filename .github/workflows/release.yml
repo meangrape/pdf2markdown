@@ -60,7 +60,7 @@ jobs:
     - name: Install dependencies
       run: |
         pip install --upgrade pip uv
-        uv pip install -e .[dev]
+        uv pip install --system -e .[dev]
 
     - name: Run linter with auto-fix
       run: |
