@@ -1,10 +1,10 @@
-#rgs.get -*- coding: utf-8 -*-
+# rgs.get -*- coding: utf-8 -*-
 
 """Convert PDF to Markdown using pymupdf4llm. You may pass a CSV file with the following format:
-    /path/to/pdf1.pdf, /path/to/markdown1.md
-    /path/to/pdf2.pdf, /path/to/markdown2.md
+/path/to/pdf1.pdf, /path/to/markdown1.md
+/path/to/pdf2.pdf, /path/to/markdown2.md
 
-    or you can pass the PDF and Markdown files as arguments."""
+or you can pass the PDF and Markdown files as arguments."""
 
 import argparse
 import sys
@@ -45,7 +45,9 @@ def convert(*args: Optional[Any], **kwargs: Any) -> None:
                 markdown = Path(markdown.strip())
 
                 if markdown.exists() and not force:
-                    logger.info(f"Output file '{markdown}' already exists. Use -F to overwrite.")
+                    logger.info(
+                        f"Output file '{markdown}' already exists. Use -F to overwrite."
+                    )
                     continue
                 try:
                     md_text = pymupdf4llm.to_markdown(pdf)
@@ -65,7 +67,9 @@ def convert(*args: Optional[Any], **kwargs: Any) -> None:
 
         markdown = args[1]
         if markdown.exists() and not force:  # type: ignore
-            logger.info(f"Output file '{markdown}' already exists. Use -F to overwrite.")
+            logger.info(
+                f"Output file '{markdown}' already exists. Use -F to overwrite."
+            )
             sys.exit()
 
         md_text = pymupdf4llm.to_markdown(pdf)
@@ -83,7 +87,12 @@ def main() -> None:
     parser.add_argument("pdf", type=Path, help="Path to the PDF file")
     parser.add_argument("markdown", type=Path, help="Path to the output Markdown file")
     parser.add_argument("-f", "--file", type=Path, help="Path to CSV batch file")
-    parser.add_argument("-F", "--force", action="store_true", help="Force overwrite the output file(s) if it exists")
+    parser.add_argument(
+        "-F",
+        "--force",
+        action="store_true",
+        help="Force overwrite the output file(s) if it exists",
+    )
 
     args = parser.parse_args()
 
@@ -114,6 +123,7 @@ def main() -> None:
         print("Please provide both the PDF file and output Markdown file.")
         parser.print_help()
         sys.exit()
+
 
 if __name__ == "__main__":
     main()

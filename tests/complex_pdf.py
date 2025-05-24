@@ -12,8 +12,15 @@ from reportlab.lib.enums import TA_CENTER, TA_LEFT
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import inch
-from reportlab.platypus import (Image, PageBreak, Paragraph, SimpleDocTemplate,
-                                Spacer, Table, TableStyle)
+from reportlab.platypus import (
+    Image,
+    PageBreak,
+    Paragraph,
+    SimpleDocTemplate,
+    Spacer,
+    Table,
+    TableStyle,
+)
 from reportlab.platypus.flowables import Flowable
 
 
@@ -26,9 +33,9 @@ def create_image(filename: Path, width: int = 200, height: int = 150) -> Optiona
         height (int): The height of the image.
     """
 
-    image = PILImage.new("RGB", (width, height), color = (73, 109, 137))
+    image = PILImage.new("RGB", (width, height), color=(73, 109, 137))
     d = ImageDraw.Draw(image)
-    d.text((10,10), "Dummy Image", fill=(255,255,0))
+    d.text((10, 10), "Dummy Image", fill=(255, 255, 0))
     try:
         image.save(filename)
     except Exception as e:
@@ -43,6 +50,7 @@ class HeaderAndFooter(Flowable):
     Custom Flowable for header/footer (more common with PageTemplate, but showing here). When testing with
     is_header=True, the converter didn't pick up the element. It works fine with is_header=False.
     """
+
     def __init__(self, text: str, is_header: bool = True) -> None:
         Flowable.__init__(self)
         self.text = text
@@ -52,14 +60,16 @@ class HeaderAndFooter(Flowable):
         self.canv.saveState()
         self.canv.setFont("Helvetica", 9)
         if self.is_header:
-            self.canv.drawString(inch, letter[1] - 0.5 * inch, self.text) # Top right
+            self.canv.drawString(inch, letter[1] - 0.5 * inch, self.text)  # Top right
         else:
-            self.canv.drawString(inch, 0.75 * inch, self.text) # Bottom right
+            self.canv.drawString(inch, 0.75 * inch, self.text)  # Bottom right
         self.canv.restoreState()
 
 
-def create_complex_pdf(filename: Path = Path("complex_document.pdf"),
-                       _image: Path = Path("dummy_image.png")) -> None:
+def create_complex_pdf(
+    filename: Path = Path("complex_document.pdf"),
+    _image: Path = Path("dummy_image.png"),
+) -> None:
     doc = SimpleDocTemplate(filename.as_posix(), pagesize=letter)
     styles = getSampleStyleSheet()
     story: List[Any] = []
@@ -70,30 +80,39 @@ def create_complex_pdf(filename: Path = Path("complex_document.pdf"),
         parent=styles["h2"],
         fontSize=18,
         spaceAfter=0.2 * inch,
-        alignment=TA_CENTER
+        alignment=TA_CENTER,
     )
     body_style = ParagraphStyle(
         "BodyStyle",
         parent=styles["Normal"],
         fontSize=10,
-        leading=14, # Line spacing
+        leading=14,  # Line spacing
         spaceAfter=0.1 * inch,
-        alignment=TA_LEFT
+        alignment=TA_LEFT,
     )
 
     # --- Section 1: Title and Introduction ---
-    story.append(Paragraph("<u><b>Complex PDF Document Example</b></u>", styles['h1']))
+    story.append(Paragraph("<u><b>Complex PDF Document Example</b></u>", styles["h1"]))
     story.append(Spacer(1, 0.4 * inch))
-    story.append(Paragraph("This document demonstrates more advanced features of PDF generation using ReportLab.", body_style))
+    story.append(
+        Paragraph(
+            "This document demonstrates more advanced features of PDF generation using ReportLab.",
+            body_style,
+        )
+    )
     story.append(Spacer(1, 0.2 * inch))
 
     # --- Section 2: Image Inclusion ---
     story.append(Paragraph("Image Example:", heading_style))
 
     if _image.exists():
-        image = Image(_image.as_posix(), width=3*inch, height=2.5*inch)
+        image = Image(_image.as_posix(), width=3 * inch, height=2.5 * inch)
         story.append(image)
-        story.append(Paragraph("<i>A placeholder image demonstrating embedding.</i>", styles["Italic"]))
+        story.append(
+            Paragraph(
+                "<i>A placeholder image demonstrating embedding.</i>", styles["Italic"]
+            )
+        )
         story.append(Spacer(1, 0.3 * inch))
     else:
         story.append(Paragraph("<i>Image could not be loaded.</i>", styles["Italic"]))
@@ -106,26 +125,40 @@ def create_complex_pdf(filename: Path = Path("complex_document.pdf"),
         ["Row 2 Col 1", "Row 2 Col 2", "Row 2 Col 3", "Row 2 Col 4"],
         ["Row 3 Col 1", "Row 3 Col 2", "Row 3 Col 3", "Row 3 Col 4 with more text"],
     ]
-    table = Table(data, colWidths=[1.5*inch, 1.5*inch, 1.5*inch, 1.5*inch])
-    table.setStyle(TableStyle([
-        ("BACKGROUND", (0, 0), (-1, 0), colors.grey), # Header row background
-        ("TEXTCOLOR", (0, 0), (-1, 0), colors.whitesmoke), # Header text color
-        ("ALIGN", (0, 0), (-1, -1), "CENTER"), # All cells centered
-        ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"), # Header font
-        ("BOTTOMPADDING", (0, 0), (-1, 0), 12), # Header padding
-        ("BACKGROUND", (0, 1), (-1, -1), colors.beige), # Body background
-        ("GRID", (0, 0), (-1, -1), 1, colors.black), # All borders
-        ("VALIGN", (0,0), (-1,-1), "MIDDLE"), # Vertical align
-    ]))
+    table = Table(data, colWidths=[1.5 * inch, 1.5 * inch, 1.5 * inch, 1.5 * inch])
+    table.setStyle(
+        TableStyle(
+            [
+                ("BACKGROUND", (0, 0), (-1, 0), colors.grey),  # Header row background
+                ("TEXTCOLOR", (0, 0), (-1, 0), colors.whitesmoke),  # Header text color
+                ("ALIGN", (0, 0), (-1, -1), "CENTER"),  # All cells centered
+                ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),  # Header font
+                ("BOTTOMPADDING", (0, 0), (-1, 0), 12),  # Header padding
+                ("BACKGROUND", (0, 1), (-1, -1), colors.beige),  # Body background
+                ("GRID", (0, 0), (-1, -1), 1, colors.black),  # All borders
+                ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),  # Vertical align
+            ]
+        )
+    )
     story.append(table)
     story.append(Spacer(1, 0.3 * inch))
 
     # --- Section 4: Page Break and New Page Content ---
-    story.append(PageBreak()) # Forces a new page
+    story.append(PageBreak())  # Forces a new page
     story.append(Spacer(1, 0.5 * inch))
-    story.append(Paragraph("This is content on the <b>second page</b>, demonstrating page breaks.", body_style))
+    story.append(
+        Paragraph(
+            "This is content on the <b>second page</b>, demonstrating page breaks.",
+            body_style,
+        )
+    )
     story.append(Spacer(1, 0.2 * inch))
-    story.append(Paragraph("We can continue with more elaborate layouts here, potentially mixing elements like images and tables freely across pages.", body_style))
+    story.append(
+        Paragraph(
+            "We can continue with more elaborate layouts here, potentially mixing elements like images and tables freely across pages.",
+            body_style,
+        )
+    )
 
     # Add a footer (this is a simplified way; PageTemplate is better for full dynamic headers/footers)
     story.append(HeaderAndFooter("Generated by ReportLab", is_header=False))

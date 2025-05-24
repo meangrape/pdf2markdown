@@ -107,7 +107,10 @@ def test_align_tables_edge_cases() -> None:
 |     | 2   |     |
 """
 
-    assert align_markdown_tables(content_empty_cells).strip() == expected_empty_cells.strip()
+    assert (
+        align_markdown_tables(content_empty_cells).strip()
+        == expected_empty_cells.strip()
+    )
 
     # Single column table
     single_col = """|Header|

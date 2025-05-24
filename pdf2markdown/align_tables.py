@@ -23,7 +23,12 @@ def align_markdown_tables(content: str) -> str:
         line = lines[i]
 
         # Check if this is the start of a table
-        if "|" in line and i + 1 < len(lines) and "|" in lines[i + 1] and re.match(r"^[\s\-:|]+$", lines[i + 1]):
+        if (
+            "|" in line
+            and i + 1 < len(lines)
+            and "|" in lines[i + 1]
+            and re.match(r"^[\s\-:|]+$", lines[i + 1])
+        ):
             # Found a table
             table_lines: List[str] = []
             j = i
@@ -52,7 +57,9 @@ def align_markdown_tables(content: str) -> str:
                         if idx < num_cols:
                             # For separator row, count dashes
                             if re.match(r"^[\-:]+$", cell):
-                                col_widths[idx] = max(col_widths[idx], 3)  # Minimum 3 for separator
+                                col_widths[idx] = max(
+                                    col_widths[idx], 3
+                                )  # Minimum 3 for separator
                             else:
                                 col_widths[idx] = max(col_widths[idx], len(cell))
 
@@ -63,15 +70,23 @@ def align_markdown_tables(content: str) -> str:
                     for col_idx in range(num_cols):
                         if col_idx < len(row):
                             cell = row[col_idx]
-                            if row_idx == 1 and re.match(r"^[\-:]+$", cell):  # Separator row
+                            if row_idx == 1 and re.match(
+                                r"^[\-:]+$", cell
+                            ):  # Separator row
                                 # Preserve alignment indicators
                                 match (cell.startswith(":"), cell.endswith(":")):
                                     case (True, True):  # Center aligned
-                                        aligned_cells.append(":" + "-" * (col_widths[col_idx] - 2) + ":")
+                                        aligned_cells.append(
+                                            ":" + "-" * (col_widths[col_idx] - 2) + ":"
+                                        )
                                     case (True, False):  # Left aligned
-                                        aligned_cells.append(":" + "-" * (col_widths[col_idx] - 1))
+                                        aligned_cells.append(
+                                            ":" + "-" * (col_widths[col_idx] - 1)
+                                        )
                                     case (False, True):  # Right aligned
-                                        aligned_cells.append("-" * (col_widths[col_idx] - 1) + ":")
+                                        aligned_cells.append(
+                                            "-" * (col_widths[col_idx] - 1) + ":"
+                                        )
                                     case (False, False):  # No alignment
                                         aligned_cells.append("-" * col_widths[col_idx])
                             else:

@@ -10,7 +10,9 @@ from pdf2markdown.cli import convert
 
 
 @pytest.fixture(scope="module")
-def simple_pdf_path(tmp_path_factory: pytest.TempPathFactory) -> Generator[Path, None, None]:
+def simple_pdf_path(
+    tmp_path_factory: pytest.TempPathFactory,
+) -> Generator[Path, None, None]:
     """Fixture to create a simple PDF in a temporary directory."""
 
     pdf_dir = tmp_path_factory.mktemp("simple_pdf_test")
@@ -20,7 +22,9 @@ def simple_pdf_path(tmp_path_factory: pytest.TempPathFactory) -> Generator[Path,
 
 
 @pytest.fixture(scope="module")
-def complex_pdf_path(tmp_path_factory: pytest.TempPathFactory) -> Generator[Path, None, None]:
+def complex_pdf_path(
+    tmp_path_factory: pytest.TempPathFactory,
+) -> Generator[Path, None, None]:
     """Fixture to create a complex PDF and its dummy image in a temporary directory."""
 
     pdf_dir = tmp_path_factory.mktemp("complex_pdf_test")
@@ -52,8 +56,8 @@ def test_simple_pdf(simple_pdf_path: Path) -> None:
 
     converted_md_content = markdown.read_text(encoding="utf-8")
     normalized_converted = [
-            line.strip() for line in converted_md_content.splitlines() if line.strip()
-            ]
+        line.strip() for line in converted_md_content.splitlines() if line.strip()
+    ]
 
     # Expected content snippets.
     expected_md_content_parts = [
@@ -66,8 +70,9 @@ def test_simple_pdf(simple_pdf_path: Path) -> None:
     ]
 
     for expected_part in expected_md_content_parts:
-        assert expected_part.strip() in normalized_converted, \
+        assert expected_part.strip() in normalized_converted, (
             f"Expected part '{expected_part}' not found in simple PDF conversion output."
+        )
 
 
 def test_complex_pdf(complex_pdf_path: Path) -> None:
@@ -87,8 +92,8 @@ def test_complex_pdf(complex_pdf_path: Path) -> None:
     converted_md_content = markdown.read_text(encoding="utf-8")
 
     normalized_converted = [
-            line.strip() for line in converted_md_content.splitlines() if line.strip()
-            ]
+        line.strip() for line in converted_md_content.splitlines() if line.strip()
+    ]
 
     # For complex PDFs, an exact string match is usually too brittle.
     # We check for the presence of key headings, table structure, and text snippets.
@@ -100,7 +105,7 @@ def test_complex_pdf(complex_pdf_path: Path) -> None:
         "# **Table Example:**",
         "| Header 1    | Header 2    | Header 3      | Header 4                |",
         "| Row 1 Col 1 | Row 1 Col 2 | Row 1 Col 3   | Row 1 Col 4             |",
-        "| Row 3 Col 1 | Row 3 Col 2 | Row 3 Col 3 R | ow 3 Col 4 with more te |", # Conversion drops "ex" at the end of "text"
+        "| Row 3 Col 1 | Row 3 Col 2 | Row 3 Col 3 R | ow 3 Col 4 with more te |",  # Conversion drops "ex" at the end of "text"
         "This is content on the **second page**, demonstrating page breaks.",
         "We can continue with more elaborate layouts here, potentially mixing elements like images and tables",
         "freely across pages.",
@@ -108,8 +113,9 @@ def test_complex_pdf(complex_pdf_path: Path) -> None:
     ]
 
     for element in expected_elements:
-        assert element.strip() in normalized_converted, \
+        assert element.strip() in normalized_converted, (
             f"Expected element '{element}' not found in complex PDF conversion output."
+        )
 
 
 def test_csv(tmp_path_factory: pytest.TempPathFactory) -> None:
@@ -149,12 +155,16 @@ def test_csv(tmp_path_factory: pytest.TempPathFactory) -> None:
 
     # Verify content of simple PDF conversion
     simple_content = simple_md.read_text(encoding="utf-8")
-    simple_lines = [line.strip() for line in simple_content.splitlines() if line.strip()]
+    simple_lines = [
+        line.strip() for line in simple_content.splitlines() if line.strip()
+    ]
     assert "# **A Simple PDF Document**" in simple_lines
     assert "This is a basic paragraph in a simple PDF." in simple_lines
 
     # Verify content of complex PDF conversion
     complex_content = complex_md.read_text(encoding="utf-8")
-    complex_lines = [line.strip() for line in complex_content.splitlines() if line.strip()]
+    complex_lines = [
+        line.strip() for line in complex_content.splitlines() if line.strip()
+    ]
     assert "# **Complex PDF Document Example**" in complex_lines
     assert "# **Table Example:**" in complex_lines
