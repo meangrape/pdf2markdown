@@ -1,4 +1,29 @@
 
+<a name="v0.1.7"></a>
+## [v0.1.7](https://github.com/meangrape/pdf2markdown/compare/v0.1.6...v0.1.7)
+
+> 2025-05-24
+
+### Bug Fixes
+
+* get make releasing working
+* Fix deprecation error in pyproject.toml about the license line
+
+### Chores
+
+* Bump version to 0.1.7
+* One Makefile to rule them all
+* Ignore tag files
+
+### Features
+
+* Add gigt-chglog
+
+### Styles
+
+* ruff formatting
+
+
 <a name="v0.1.6"></a>
 ## [v0.1.6](https://github.com/meangrape/pdf2markdown/compare/v0.1.0...v0.1.6)
 
