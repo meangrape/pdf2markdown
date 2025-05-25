@@ -1,4 +1,23 @@
 
+<a name="v1.0.3"></a>
+## [v1.0.3](https://github.com/meangrape/pdf2markdown/compare/v1.0.2...v1.0.3)
+
+> 2025-05-24
+
+### CI
+
+* don't try and fix formatting issues during a test they won't get checked in
+* really, really try to get the previous version
+
+### Chores
+
+* Bump version to 1.0.3
+
+### Documentation
+
+* Update changelog for v1.0.3
+
+
 <a name="v1.0.2"></a>
 ## [v1.0.2](https://github.com/meangrape/pdf2markdown/compare/v1.0.1...v1.0.2)
 
@@ -110,7 +129,7 @@
 
 
 <a name="v0.1.6"></a>
-## [v0.1.6](https://github.com/meangrape/pdf2markdown/compare/v0.1.0...v0.1.6)
+## [v0.1.6](https://github.com/meangrape/pdf2markdown/compare/v0.1.5...v0.1.6)
 
 > 2025-05-24
 
@@ -157,6 +176,18 @@
 ### Tests
 
 * Add CSV test
+
+
+<a name="v0.1.5"></a>
+## [v0.1.5](https://github.com/meangrape/pdf2markdown/compare/v0.1.4...v0.1.5)
+
+> 2025-05-24
+
+
+<a name="v0.1.4"></a>
+## [v0.1.4](https://github.com/meangrape/pdf2markdown/compare/v0.1.0...v0.1.4)
+
+> 2025-05-24
 
 
 <a name="v0.1.0"></a>
